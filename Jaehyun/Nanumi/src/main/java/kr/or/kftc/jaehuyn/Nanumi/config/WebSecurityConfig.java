@@ -7,19 +7,24 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
+import kr.or.kftc.jaehuyn.Nanumi.authentication.MyDBAuthenticationService;
+
 @Configuration
 //@EnableWebSecurity = @EnableWebMVCSecurity + Extra features
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
+ @Autowired
+ MyDBAuthenticationService myDBAauthenticationService;
  
  @Autowired
  public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 
      // Users in memory.
 
-     auth.inMemoryAuthentication().withUser("jaehyun").password("jaehyun").roles("USER");
-     auth.inMemoryAuthentication().withUser("admin").password("admin").roles("USER, ADMIN");
+     //auth.inMemoryAuthentication().withUser("jaehyun").password("jaehyun").roles("USER");
+     //auth.inMemoryAuthentication().withUser("admin").password("admin").roles("USER, ADMIN");
+	// For User in database.
+     auth.userDetailsService(myDBAauthenticationService);
 
  }
 
